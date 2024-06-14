@@ -106,6 +106,42 @@ void main() {
           },
         });
       });
+
+      test('should fail on intent to merge non-map with map', () {
+          final Map<String, dynamic> map1 = {
+            'key1': 'value1',
+            'key2': 'value2',
+          };
+
+          final Map<String, dynamic> map2 = {
+            'key2': {
+              'key3': 'value3',
+              'key4': 'value4',
+            },
+          };
+
+          expect(() => map1.addAllRecursive(map2), throwsA(isA<Exception>()));
+        },
+      );
+
+      test('should warn if values are overwritten', overridePrint(() {
+          final Map<String, dynamic> map1 = {
+            'key1': 'value1',
+            'key2': 'value2',
+          };
+
+          final Map<String, dynamic> map2 = {
+            'key2': 'new_value2',
+          };
+
+          map1.addAllRecursive(map2);
+
+          expect(printLog.length, 1);
+
+          expect(printLog.first.contains('[WARNING]'), true);
+          expect(printLog.first.contains('The key "key2" already exists in the map. Overwriting it.'), true);
+        },
+      ));
     });
   });
 }

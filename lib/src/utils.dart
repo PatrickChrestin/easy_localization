@@ -74,6 +74,15 @@ extension MapExtension<K> on Map<K, dynamic> {
         continue;
       }
 
+      if (oldValue is! Map<K, dynamic> && newValue is Map<K, dynamic> || 
+          oldValue is Map<K, dynamic> && newValue is! Map<K, dynamic>) {
+        throw Exception('Cannot merge non-Map values. Key: ${entry.key}');
+      }
+
+      if (oldValue != null && newValue != null){
+        EasyLocalization.logger.warning('The key "${entry.key}" already exists in the map. Overwriting it.');
+      }
+
       this[entry.key] = newValue;
     }
   }
