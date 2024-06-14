@@ -108,7 +108,7 @@ void main() {
         });
       });
 
-      test('should fail on intent to merge non-map with map', overridePrint(() {
+      test('should warn if possibly multiple values are lost', overridePrint(() {
           printLog = [];
           final Map<String, dynamic> map1 = {
             'key1': 'value1',
@@ -131,7 +131,7 @@ void main() {
         },
       ));
 
-      test('should fail on intent to merge non-map with map', overridePrint(() {
+      test('should warn if possibly multiple values are lost', overridePrint(() {
           printLog = [];
           final Map<String, dynamic> map1 = {
             'key2': {
